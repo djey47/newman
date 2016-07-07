@@ -1,6 +1,6 @@
 <img src="https://s3.amazonaws.com/web-artefacts/newman-128.png" />
 
-# Newman [![Build Status](https://travis-ci.org/postmanlabs/newman.svg?branch=master)](https://travis-ci.org/postmanlabs/newman)
+# Newman [![Build Status](https://travis-ci.org/djey47/newman.svg?branch=master-cookie-support)](https://travis-ci.org/djey47/newman)
 
 **Update Feb 25 2016:** Newman v2 (which only works with Node v4.0+) has been released. If you are using Node v0.10 or Node v0.12, check the supported Node versions below.
 
