@@ -33,7 +33,8 @@ describe("TestResponseHandler", function () {
                 'content-type': 'application/json',
                 'content-length': '3',
                 'connection': 'Keep-Alive',
-                'age': '286'
+                'age': '286',
+                'set-cookie': ['sid=123456789; Domain=.local; Path=/']
             },
             stats: { timeTaken: 100 },
             statusCode: 200,
@@ -167,7 +168,6 @@ describe("TestResponseHandler", function () {
         assert(_und.contains(_und.pluck(Globals.envJson.values, 'value'), '10'));
     });
 
-
     it("should get and set env variable properly", function () {
         Globals.envJson = {
             values: [
@@ -195,6 +195,21 @@ describe("TestResponseHandler", function () {
         another_request.tests = 'tests["testcase2"] = environment.url === "google.com";';
         var results2 = TestResponseHandler._runTestCases(null, this.response, this.response.body, another_request);
         assert.deepEqual(results2, { "testcase2": true });
+    });
+
+    it("should get response cookie properly", function () {
+        this.request.tests = 'var cookie = postman.getResponseCookie("sid");';
+        this.request.tests += 'tests["cookieValue"] = cookie.value === "123456789";';
+        this.request.tests += 'tests["cookieDomain"] = cookie.domain === ".local";';
+        this.request.tests += 'tests["cookiePath"] = cookie.path === "/";';
+        this.request.tests += 'tests["noCookie"] = !postman.getResponseCookie("fake");';
+        var results = TestResponseHandler._runTestCases(null, this.response, this.response.body, this.request);
+        assert.deepEqual(results, {
+            "cookieValue": true,
+            "cookieDomain": true,
+            "cookiePath": true,
+            "noCookie": true
+        });
     });
 
     afterEach(function () {

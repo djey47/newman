@@ -52,6 +52,7 @@
     "btoa": "1.1.2",
     "cli-color": "0.2.x",
     "commander": "2.x.x",
+    "cookie": "0.3.1",
     "crypto-js": "^3.1.5",
     "dot": "1.0.3",
     "hawk": "3.1.2",

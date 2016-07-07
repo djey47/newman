@@ -16,7 +16,8 @@ var jsface = require('jsface'),
     ResponseExporter = require("../utilities/ResponseExporter"),
     btoa = require("btoa"),
     atob = require("atob"),
-    tv4 = require("tv4");
+    tv4 = require("tv4"),
+    Cookie = require("cookie");
 require('sugar');
 /**
  * @class TestResponseHandler
@@ -274,6 +275,25 @@ var TestResponseHandler = jsface.Class(AbstractResponseHandler, {
                 }
             },
             postman: {
+                getResponseCookie: function (cookieName) {
+                    var setCookieHeaders = Helpers.getResponseHeader("set-cookie", response.headers);
+                    if (!setCookieHeaders) {
+                        return null;
+                    }
+
+                    for (var i = 0 ; i < setCookieHeaders.length ; i++) {
+                        var parsedCookie = Cookie.parse(setCookieHeaders[i]);
+                        if (parsedCookie[cookieName]) {
+                                return {
+                                        value: parsedCookie[cookieName],
+                                        path: parsedCookie.Path,
+                                        domain: parsedCookie.Domain
+                                };
+                            }
+                    }
+
+                    return null;
+                },
                 getResponseHeader: function (headerString) {
                     return Helpers.getResponseHeader(headerString, response.headers);
                 },
